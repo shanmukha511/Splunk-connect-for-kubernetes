@@ -247,10 +247,10 @@ data:
       {{- end }}
 
       # = filters for monitor agent =
-      <filter monitor_agent>
-        @type jq_transformer
-        jq ".record.source = \"namespace:#{ENV['MY_NAMESPACE']}/pod:#{ENV['MY_POD_NAME']}\" | .record.sourcetype = \"fluentd:monitor-agent\" | .record.cluster_name = \"{{ or .Values.kubernetes.clusterName .Values.global.kubernetes.clusterName | default "cluster_name" }}\" | .record"
-      </filter>
+      #<filter monitor_agent>
+        #@type jq_transformer
+        #jq ".record.source = \"namespace:#{ENV['MY_NAMESPACE']}/pod:#{ENV['MY_POD_NAME']}\" | .record.sourcetype = \"fluentd:monitor-agent\" | .record.cluster_name = \"{{ or .Values.kubernetes.clusterName .Values.global.kubernetes.clusterName | default "cluster_name" }}\" | .record"
+      #</filter>
 
       # = custom filters specified by users =
       {{- range $name, $filterDef := .Values.customFilters }}
