@@ -169,12 +169,12 @@ data:
 
 
   monit.conf: |-
-    #<source>
-      #@id fluentd-monitor-agent
-      #@type monitor_agent
-      #@label @SPLUNK
-      #tag monitor_agent
-    #</source>
+          #<source>
+          #@id fluentd-monitor-agent
+          #@type monitor_agent
+          #@label @SPLUNK
+          #tag monitor_agent
+          #</source>
 
 
   output.conf: |-
@@ -194,15 +194,13 @@ data:
       </filter>
       {{- end }}
       {{- end }}
-      
       <match **>
         @type relabel
         @label @SPLUNK
       </match>
-    </label> 
-      
+    </label>
+    <label @SPLUNK>
       # extract index fields and sourcetype for container logs
-     <label @SPLUNK>
       <filter tail.containers.**>
         @type jq_transformer
         jq {{ include "splunk-kubernetes-logging.container_jq_filter" . | replace "\n" " " | quote }}
@@ -248,8 +246,8 @@ data:
 
       # = filters for monitor agent =
       #<filter monitor_agent>
-        #@type jq_transformer
-        #jq ".record.source = \"namespace:#{ENV['MY_NAMESPACE']}/pod:#{ENV['MY_POD_NAME']}\" | .record.sourcetype = \"fluentd:monitor-agent\" | .record.cluster_name = \"{{ or .Values.kubernetes.clusterName .Values.global.kubernetes.clusterName | default "cluster_name" }}\" | .record"
+      #@type jq_transformer
+      #jq ".record.source = \"namespace:#{ENV['MY_NAMESPACE']}/pod:#{ENV['MY_POD_NAME']}\" | .record.sourcetype = \"fluentd:monitor-agent\" | .record.cluster_name = \"{{ or .Values.kubernetes.clusterName .Values.global.kubernetes.clusterName | default "cluster_name" }}\" | .record"
       #</filter>
 
       # = custom filters specified by users =
